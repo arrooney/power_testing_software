@@ -13,20 +13,32 @@ const SerialPort = require('serialport'),
             dateTime = `${date}_${time}`;
         return dateTime;
     };
-const serialPort = '/dev/cu.usbmodem144101', // << change ME
+
+const serialPort = '/dev/cu.usbmodem146101', // << change ME
     port = new SerialPort(serialPort, { baudRate: 9600 }),
     parser = port.pipe(new Readline({ delimiter: '\n' })), // will trigger callback on newline.
     re = new RegExp(/^mA([\-\.0-9]+)mV([\-\.0-9]+)mW([\-\.0-9]+)Cel([\-\.0-9]+)$/, "gm"),
-    startTime = getDateTime(), filename = `test_output_${startTime}`;
+    startTime = getDateTime(), filename = `test_output_${startTime}.json`;
+
 var output = {
-    test_values: []
+    test_values: {
+        dateTime:       [],
+        current_ma:     [],
+        voltage_mv:     [],
+        power_mw:       [],
+        temperature_cel:[]
+    }
 };
 
 fs.writeFileSync(filename, JSON.stringify(output), 'utf8');
 
-port.on("open", () => {
+port.on('open', () => {
     console.log(`Connected to ${serialPort}`);
 });
+
+port.on('error', (err) => {
+    console.log(`Error: check connection to Arduino, or serialPort name. ${err}`);
+})
 
 parser.on('data', (data) => {
     console.log(`Incoming data:\n${data}`);
@@ -37,20 +49,15 @@ parser.on('data', (data) => {
                 console.log(err);
             } else {
                 dataObj = JSON.parse(data);
-
-                dataObj.test_values.push({
-                    dateTime:   getDateTime(),
-                    current:    match[1],
-                    voltage:    match[2],
-                    power:      match[3],
-                    temperature:match[4]
-                }); //add the latest data
-
+                dataObj.test_values.dateTime.push(getDateTime());
+                dataObj.test_values.current_ma.push(match[1]);
+                dataObj.test_values.voltage_mv.push(match[2]);
+                dataObj.test_values.power_mw.push(match[3]);
+                dataObj.test_values.temperature_cel.push(match[4]);
                 json = JSON.stringify(dataObj);
+
                 fs.writeFileSync(filename, json, 'utf8');
             }
         });
     }
 });
-
-
