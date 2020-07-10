@@ -3,6 +3,11 @@
 *        https://github.com/adafruit/Adafruit_MCP9808_Library
 *        https://github.com/adafruit/Adafruit_INA260
 */
+/**
+ * @file collect_data.ino
+ * @author Andrew Rooney
+ * @date 2020-07-09
+ */
 
 #include <Wire.h>
 #include "Adafruit_INA260.h"

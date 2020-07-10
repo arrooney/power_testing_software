@@ -1,3 +1,8 @@
+/**
+ * @file index.js
+ * @author Andrew Rooney
+ * @date 2020-07-09
+ */
 const SerialPort = require('serialport'),
     Readline = require('@serialport/parser-readline'),
     fs = require('fs'),
@@ -8,7 +13,7 @@ const SerialPort = require('serialport'),
             dateTime = `${date}_${time}`;
         return dateTime;
     };
-const serialPort = '/dev/cu.usbmodem144101',
+const serialPort = '/dev/cu.usbmodem144101', // << change ME
     port = new SerialPort(serialPort, { baudRate: 9600 }),
     parser = port.pipe(new Readline({ delimiter: '\n' })), // will trigger callback on newline.
     re = new RegExp(/^mA([\-\.0-9]+)mV([\-\.0-9]+)mW([\-\.0-9]+)Cel([\-\.0-9]+)$/, "gm"),
