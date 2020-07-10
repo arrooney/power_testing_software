@@ -1,3 +1,10 @@
+## Prerequisites
+
+Must have:
+* Arduino IDE
+* [node](https://nodejs.org/en/)
+* and [yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable)
+
 ## To build
 
 1. Download the [Arduino ide](https://www.arduino.cc/en/main/software)
