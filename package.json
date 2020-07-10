@@ -1,0 +1,23 @@
+{
+  "name": "testing_board",
+  "version": "1.0.0",
+  "description": "Testing board for collecting temperature, and power data",
+  "main": "index.js",
+  "scripts": {
+    "collect": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/arrooney/testing_board.git"
+  },
+  "author": "Andrew R. Rooney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arrooney/testing_board/issues"
+  },
+  "homepage": "https://github.com/arrooney/testing_board#readme",
+  "dependencies": {
+    "package.json": "^2.0.1",
+    "serialport": "^9.0.0"
+  }
+}
