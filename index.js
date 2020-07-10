@@ -44,19 +44,24 @@ parser.on('data', (data) => {
     console.log(`Incoming data:\n${data}`);
     const match = re.exec(data);
     if (match && match.length == 5) {
-        fs.readFile(filename, 'utf8', function readFileCallback(err, data){
+        fs.readFile(filename, 'utf8', function(err, data) {
             if (err) {
                 console.log(err);
-            } else {
-                dataObj = JSON.parse(data);
-                dataObj.test_values.dateTime.push(getDateTime());
-                dataObj.test_values.current_ma.push(match[1]);
-                dataObj.test_values.voltage_mv.push(match[2]);
-                dataObj.test_values.power_mw.push(match[3]);
-                dataObj.test_values.temperature_cel.push(match[4]);
-                json = JSON.stringify(dataObj);
+                throw err;
+            }
+            dataObj = JSON.parse(data);
+            dataObj.test_values.dateTime.push(getDateTime());
+            dataObj.test_values.current_ma.push(match[1]);
+            dataObj.test_values.voltage_mv.push(match[2]);
+            dataObj.test_values.power_mw.push(match[3]);
+            dataObj.test_values.temperature_cel.push(match[4]);
+            json = JSON.stringify(dataObj);
 
+            try {
                 fs.writeFileSync(filename, json, 'utf8');
+            } catch (e) {
+                console.log(`Error writing to JSON. ${e}`);
+                throw e;
             }
         });
     }
